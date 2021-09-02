@@ -128,7 +128,7 @@ ppp_maryland_loans %>%
 ```
 How many loans does Anne Arundel County have?  Put your answer in the space below.
 **Answer**
-
+17336
 ### Task 7
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by the county for each loan, count the number of loans in that group, and then sort so the county with the highest number of loans is listed first.
 ```{r}
@@ -141,7 +141,7 @@ ppp_maryland_loans %>%
 ```
 Which county has the most loans?  Put your answer in the space below.
 **Answer**
-
+Montgomery County 
 ### Task 8
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by county and race, then count the number of loans in that group, and then sort from A-Z by county and then by race.
 ```{r}
@@ -155,7 +155,7 @@ ppp_maryland_loans %>%
 
 How many records were there for White loans in Anne Arundel County, according to the data?  Put your answer in the space below.
 **Answer**
-
+1854
 ### Task 9
 **Task** Run the following codeblock to group the ppp_maryland_loans dataframe by the county for each loan, and then count the number of loans in that group and add up the value of all loans in that group. Then sort so the county with the highest total loan dollar amount is listed first.
 ```{r}
