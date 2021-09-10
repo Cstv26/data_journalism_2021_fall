@@ -70,19 +70,33 @@ west_virginia_ppp %>%
 
 **Q2** Which servicing lenders have the most loans with undisbursed amounts greater than 0?
 **A2** [write your answer here]
-
+Harvest Small Business Finance, LLC has the most undisbursed amounts greater than 0 at 139 loans.
 ```{r}
 # Write the code to produce your answer here
-
+west_virginia_ppp %>% 
+  mutate(
+    undisbursed_greater_than_0=if_else(
+      undisbursed_amount>0, "yes","no" 
+      )
+  )%>% 
+  filter(undisbursed_greater_than_0 =="yes") %>%
+  group_by(servicing_lender_name)%>%
+  summarise(count_undisbursed_loans =n()
+            )%>%
+arrange(desc(count_undisbursed_loans))
 ```
 
 **Q3** How would you describe the top 10 list of those lenders? What do they have in common or not? (You may want to look up some of the top ones.)
 **A3** [write your answer here]
-
+The top three lenders Benworth Capital, Capital Plus Financial, LLC, and Harvest Small Business Finance, LLC, are all firms that deal with mortgages, housing, and credit for homeowners. 
 **Q4** Which month in 2021 had the most loans approved?
 **A4** [write your answer here]
-
+March with 4404 loans.
 ```{r}
 # Write the code to produce your answer here
-
+ west_virginia_ppp%>%
+  mutate(Month = floor_date(date_approved, "month")) %>%
+  group_by(Month) %>%
+  summarise(total = n()) %>%
+  arrange(desc(total))
 ```
