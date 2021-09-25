@@ -140,7 +140,7 @@ maryland_ppp_with_naics_and_demographics <- maryland_ppp_with_naics %>% left_joi
 maryland_ppp_with_naics_and_demographics %>%
   filter(PNHB > 50) %>%
   summarize(
-    count = n(),
+    count = n(), 
     avgamount = mean(amount),
     medamount = median(amount))
 ```
