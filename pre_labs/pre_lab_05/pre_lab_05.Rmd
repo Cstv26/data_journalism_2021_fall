@@ -36,7 +36,7 @@ library(refinr)
 ### Task 3: Load data
 **Task** Run the following code to load the zipped-up Maryland PPP loans data. How many records are in this table?
 **Answer**
-
+195,865
 ```{r}
 # Load data
 md_loans <- read_csv("data/ppp_loans_md.csv.zip")
@@ -49,7 +49,7 @@ md_loans
 ### Task 4: Group and count to identify problems in city column
 **Task** Run the following code to group and count records in the city column, and filter to examine only cities that start with A. Name a problem that you see that is preventing proper grouping.
 **Answer**
-
+Uppercase and lowercase variations of the city names.
 ```{r}
 # Now let's try and group and count the number of loans by city. To make it a bit more managable, let's use another string function from `stringr` and filter for cities that start with the uppercase "A" or lowercase "a" using the function `str_detect()` with a regular expression.  
 
@@ -67,7 +67,7 @@ md_loans %>%
 ### Task 5: Use refinr to clean the city_clean field. 
 **Task** Run the following code to make a copy of the city field called city_clean, then use the `key_collision_merge` function from refinr to attempt to standarize similar values. Store it as a new object called clean_md_loans.  Click the black arrow on the table to examine the city and city_clean columns.  Looking at the results on the first page only (first 10 rows), name two changes the refinr package made, by comparing city to city_clean.
 **Answer**
-
+It put most of the names in titlecase, as well as filtering it by the starting letter, for this instance, A.
 ```{r}
 cleaned_md_loans <- md_loans %>%
   mutate(city_clean=key_collision_merge(city)) %>%
@@ -80,7 +80,7 @@ cleaned_md_loans
 ### Task 6: Filter cleaned_md_loans to examine cities that start with A 
 **Task** Run the following code to group by city_clean and city, then filter for cities that start with A. Name three changes the refinr function made.  
 **Answer**
-
+Put somethings in titlecase, but other than that I dont see anything.
 ```{r}
 cleaned_md_loans %>%
   group_by(city_clean, city) %>%
@@ -93,7 +93,7 @@ cleaned_md_loans %>%
 ### Task 7: Use a different refinr method to clean the city_clean field. 
 **Task** Run the following code to use the n_gram_merge() function to clean the data, then group by city_clean and city to examine cities that start with A. Look at the differences. Does the changes it made vary substantially from the previous use of key_collision_merge?
 **Answer**
-
+No it doesn't.It is identical.
 ```{r}
 cleaned_md_loans <- md_loans %>%
   mutate(city_clean=n_gram_merge(city)) %>%
