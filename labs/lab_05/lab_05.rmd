@@ -28,7 +28,9 @@ You'll need to load two packages for this: the tidyverse and janitor.
 ```{r}
 # Turn off scientific notation
 options(scipen=999)
-
+library(tidyverse)
+library(lubridate)
+library(refinr)
 ```
 
 ## Load Data
@@ -42,7 +44,12 @@ You'll need to load three data sets for this:
 All three data sets are in the data folder.  Write code to load the three in the codeblock below.
 
 **Task** Create a codeblock below this task, then read the data sets in in and assign them to appropriate variable names. There's a fourth data set you'll use in this lab, too, of selected loans in ZIP Code 25401. But there's no need to load it now.
-
+```{r}
+naics_codes <- read.csv("data/naics_codes.csv") 
+wv_pop <- read.csv("data/wv_population_county.csv")
+zip_25401 <- read.csv("data/zip_25401_loan_sample.csv")
+lab_05 <- read_rds("data/lab_05.rds")
+```
 ## Answer questions
 
 **Q1.** In the data folder, there is a csv called zip_25401_loan_sample.csv.  It contains a sample of loans from West Virginia ZIP Code 25401. 
@@ -63,9 +70,18 @@ Then answer these questions:
 * What are the names of the businesses at that address?
 
 **A1.**
-
+126 E Burke Way had the most loans of 6.The businesses are DREW HOLDINGS LLC, BRIX27 LLC, ABRAHAM ASHTON, HUB CO-OP LLC, and RONIN PROPERTIES LLC. 
 ```{r}
+new_zip_25401 <- read.csv("data/zip_25401_loan_sample-csv.csv")
 
+new_zip_25401 %>%
+  group_by(address) %>%
+  summarise(
+    count=n()) %>%
+  arrange(desc(count))
+
+new_zip_25401 %>%
+  filter(address == "126 E Burke St")
 ```
 
 **Q2.** Do some web research on the businesses that answered question 1.  
@@ -75,6 +91,7 @@ Google the street address.  Google the business names and search for their corpo
 Based on your research, does it seem suspicious that this collection of businesses all got loans using the same address? Why or why not. Use specific facts identified in your research to support your position. 
 
 **A2.**
+It is odd that all of these businesses at the same address needed loans, but when looking up the actual address itself I found that this is a community workspace, so multiple bussiness are at that address, so I do not think it is suspicious. 
 
 **Q3.** Start by using the West Virginia slice of the PPP loan data that you loaded at the start of the lab to create a subset of PPP loans in West Virginia's second largest county (which you can find in wv_population_county). And then use that table you created to answer the following questions:
 
@@ -86,14 +103,38 @@ Requirement: you MUST export a dataframe of PPP loans from R Studio at some poin
 Guidance: there are a lot of steps you'll need to take to answer this question. You may or may not find it helpful to write out in English what you plan to do step-by-step before you start writing code.   
 
 **A3.**
-
+Martinsburg had the highest number of loans at 1166 loans. Full Service restaurants had the most loans of 50.
 ```{r}
+  Berkeley_loans <- lab_05 %>%
+  filter(project_county_name == "BERKELEY") 
+ write_csv(Berkeley_loans,"data/Berkeley_loans.csv")
+ 
+ clean_berk <- read.csv("data/cleaned_Berkeley_loans-csv.csv")
+ 
+ clean_berk %>%
+ group_by(city) %>%
+  summarise(
+    count=n()) %>%
+  arrange(desc(count))
+ 
+ clean_burke_naics <- clean_berk %>% left_join(naics_codes, by=c("naics_code"))
+ 
+ clean_burke_naics %>% 
+   filter(city=="Martinsburg")%>%
+   group_by(title)%>%
+     summarise(
+    count=n()) %>%
+  arrange(desc(count))
 
 ```
 
 **Q4.** What are your two best hypotheses, which you'd need to confirm with reporting and further analysis, that explain why that industry is at the top of the list?
 
 **A4.** 
+Full Service restuarants are at the top of the list because:
+1. No one was going out to eat because of quarantine
+~or~
+2.Doordash and Ubereats were taking over during that time so they had to get money to somehow pay their employees who weren't getting any hours.
 
 **Q5.** Start with a table of loans to all businesses in the city and industry that answered question 3. Answer the following questions:
 * What is the name of the business that got the highest approved loan amount? 
@@ -104,6 +145,10 @@ Guidance: there are a lot of steps you'll need to take to answer this question. 
 * How many locations does this business have? 
 * Did one of its locations close during the pandemic, either before or after it got the loan?
 
+```{r}
+clean_burke_naics%>%
+  
+```
 Hint: you will not find the answers to the last three questions in the data.  You could call them directly to get that information, but I don't want you to do that for this assignment.  Instead, do some web research. I would start by Googling the company name from the data and looking at the page that comes up for the business from at http://apps.sos.wv.gov/. I would use information I found on that page and use info about the company from Google, the [Wayback machine](https://archive.org/web/) (which lets you look at older versions of a company's website), Yelp, and Facebook. 
 
 **A5.**
