@@ -147,8 +147,18 @@ Full Service restuarants are at the top of the list because:
 
 ```{r}
 clean_burke_naics%>%
-  
+     filter(city == "Martinsburg" & title == "Full-Service Restaurants") %>%
+     arrange(desc(amount))
+
+clean_burke_naics %>%
+     filter(name == "COTTLE CHRISTI L LLC") %>%
+     summarize(
+          amount,
+          date_approved,
+          jobs_retained
+       )
 ```
 Hint: you will not find the answers to the last three questions in the data.  You could call them directly to get that information, but I don't want you to do that for this assignment.  Instead, do some web research. I would start by Googling the company name from the data and looking at the page that comes up for the business from at http://apps.sos.wv.gov/. I would use information I found on that page and use info about the company from Google, the [Wayback machine](https://archive.org/web/) (which lets you look at older versions of a company's website), Yelp, and Facebook. 
 
 **A5.**
+COTTLE CHRISTI L LLC, got the highest loan amount of $280,434. It was approved on February 17th, 2021 and it retained 94 jobs. Customers know it as Kitzie's Cafe and other Kitzie's restaurants. There are 6 locations, two closed, one was during the pandemic on 5/19/2020 and was Kitzie's of Inwood..
