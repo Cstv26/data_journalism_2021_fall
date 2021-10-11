@@ -25,7 +25,7 @@ In this notebook, we are reverse engineering the story, [STORY NAME](STORY URL)
 Loading required libraries for this analysis.
 
 ```{r echo=FALSE, message=FALSE}
-
+library(tidyverse)
 ```
 
 ## Load and Cleaning Data
@@ -34,7 +34,7 @@ In this section, describe the source of the data, write a basic data dictionary 
 
 ```{r}
 # Load required data
-
+baltimore_homicide <- read_csv("data/homicide-data.csv")
 # Path to data should be loaded from folder "data" i.e. read_csv("data/name_of_data.csv")
 
 # Clean required data and prepare for analysis if needed. 
@@ -54,6 +54,38 @@ In this notebook, we are reverse engineering five sentences from the story.
 # Put code to reverse engineer sentence here
 
 # Display results of code below this codeblock
+baltimore_homicide %>%
+filter(city == "Baltimore") %>%
+mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+filter(reported_date >= as.Date("2014-01-01"), reported_date <= as.Date("2014-12-31")) %>%
+group_by(disposition)%>%
+summarise(
+count= n()
+) %>%
+mutate(s = sum(count)) %>%
+filter(disposition == "Closed by arrest") %>%
+mutate(c = sum(count)) %>%
+mutate(percentage = c / s) %>%
+select(percentage) %>%
+group_by(percentage) %>%
+slice(1:1)
+
+#2018
+baltimore_homicide %>%
+filter(city == "Baltimore") %>%
+mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+filter(reported_date >= as.Date("2018-01-01"), reported_date <= as.Date("2018-12-31")) %>%
+group_by(disposition)%>%
+summarise(
+count= n()
+) %>%
+mutate(s = sum(count)) %>%
+filter(disposition == "Closed by arrest") %>%
+mutate(c = sum(count)) %>%
+mutate(percentage = c / s) %>%
+select(percentage) %>%
+group_by(percentage) %>%
+slice(1:1)
 
 ```
 
