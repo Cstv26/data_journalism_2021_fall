@@ -47,7 +47,7 @@ In this notebook, we are reverse engineering five sentences from the story.
 
 ### Sentence 1
 
-* **Sentence text**: [Paste in sentence to engineer here]
+* **Sentence text**: "City police made an arrest in 41 percent of homicides in 2014; last year, the rate was just 27 percent, a 14 percentage point drop."
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
@@ -62,36 +62,29 @@ group_by(disposition)%>%
 summarise(
 count= n()
 ) %>%
-mutate(s = sum(count)) %>%
+mutate(total_homicides = sum(count)) %>%
 filter(disposition == "Closed by arrest") %>%
 mutate(c = sum(count)) %>%
-mutate(percentage = c / s) %>%
-select(percentage) %>%
-group_by(percentage) %>%
-slice(1:1)
+mutate(percentage = count / total_homicides) 
 
 #2018
 baltimore_homicide %>%
 filter(city == "Baltimore") %>%
 mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
-filter(reported_date >= as.Date("2018-01-01"), reported_date <= as.Date("2018-12-31")) %>%
+filter(reported_date >= as.Date("2017-01-01"), reported_date <= as.Date("2017-12-31")) %>%
 group_by(disposition)%>%
 summarise(
 count= n()
 ) %>%
-mutate(s = sum(count)) %>%
+mutate(total_homicides = sum(count)) %>%
 filter(disposition == "Closed by arrest") %>%
-mutate(c = sum(count)) %>%
-mutate(percentage = c / s) %>%
-select(percentage) %>%
-group_by(percentage) %>%
-slice(1:1)
-
+mutate(count = sum(count)) %>%
+mutate(percentage = count / total_homicides) 
 ```
 
 ### Sentence 2
 
-* **Sentence text**: [Paste in sentence to engineer here]
+* **Sentence text**: "Of 50 of the nation’s largest cities, Baltimore is one of 34 where police now make homicide arrests less often than in 2014."
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
@@ -103,7 +96,9 @@ slice(1:1)
 
 ### Sentence 3
 
-* **Sentence text**: [Paste in sentence to engineer here]
+* **Sentence text**: Of the 1,002 homicides between 2015 and the beginning of this year, just 252 — one out of every four — resulted in an arrest.
+
+
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
@@ -115,7 +110,7 @@ slice(1:1)
 
 ### Sentence 4
 
-* **Sentence text**: [Paste in sentence to engineer here]
+* **Sentence text**: Sandtown-Winchester, where Gray died, has seen 22 more homicides in the three-year period since Gray’s death than it did in the three years before he died. Southwest Baltimore saw its homicides rise by 35, and Greater Rosemont has seen 26 more since 2015.
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
@@ -127,7 +122,8 @@ slice(1:1)
 
 ### Sentence 5
 
-* **Sentence text**: [Paste in sentence to engineer here]
+* **Sentence text**: In each of those neighborhoods, police make an arrest in fewer than 25 percent of cases, including 16 percent in Sandtown-Winchester.
+
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
