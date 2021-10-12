@@ -81,11 +81,12 @@ filter(disposition == "Closed by arrest") %>%
 mutate(count = sum(count)) %>%
 mutate(percentage = count / total_homicides) 
 
+total_2014_2017<-bind_cols(percent_2014,percent_2017)
 ```
 
 ### Sentence 2
 
-* **Sentence text**: "Of 50 of the nation’s largest cities, Baltimore is one of 34 where police now make homicide arrests less often than in 2014."
+* **Sentence text**: Of the 1,002 homicides between 2015 and the beginning of this year, just 252 — one out of every four — resulted in an arrest. In Chicago, the homicide arrest rate has dropped 21 percentage points, in Boston it has dropped 12 points and in St. Louis it is down 9. 
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
@@ -111,7 +112,7 @@ mutate(percentage = count / total_homicides)
 
 ### Sentence 4
 
-* **Sentence text**: Sandtown-Winchester, where Gray died, has seen 22 more homicides in the three-year period since Gray’s death than it did in the three years before he died. Southwest Baltimore saw its homicides rise by 35, and Greater Rosemont has seen 26 more since 2015.
+* **Sentence text**: Baltimore is also one of 30 cities that have seen an increase in homicides in recent years, with the greatest raw number increase in killings of any city other than Chicago, which has four times the population.
 * **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
 
 ```{r}
