@@ -79,7 +79,7 @@ In our web browser, if we right-click anywhere on the page and select "view sour
 ### Task 3: View source
 **Task** Follow the directions in the previous paragraph. Briefly describe what you see there.
 **Answer**
-
+  I see all the html code that went into making the page. There is an insane amount of div and ul tags. It makes sense as to why since everything is put into a data set or a list but its just crazy how much goes into it.
 Here's a picture of what some of the source code looks like.
 
 ### Task 4: Load image
@@ -116,7 +116,7 @@ If we click on the name "naics_industry" in our environment window, we can see t
 ### Task 6: Examine html
 **Task** Follow the directions in the previous paragraph to click on naics_industry in the environment window. Briefly describe what you see there.
 **Answer**
-
+I see an html, body, and head tags along with xlm attributes which ive never seen before.
 Nested within the `<html>` tag is the `<head>` and `<body>`, the two fundamental sections of most web pages. We're going to pull information out of the `<body>` tag in a bit.
 
 ### Task 7: Load image
@@ -134,7 +134,7 @@ On the page, find the data we want to grab -- "Table 2. NAICS Sectors" - and rig
 ### Task 8: Inspect element
 **Task** Follow the directions in the previous paragraph. Briefly describe what you see there.
 **Answer**
-
+I see an absolute mess of html. There is so many div tags with padding and things that I didnt know existed.
 ### Task 9: Load image
 **Task** Run the following code to display an image showing what you should see on the web page.
 ```{r, echo=FALSE}
@@ -148,7 +148,7 @@ Because it's inside of a table, and not some other kind of element (like a `<div
 ### Task 10: Run code to process tables
 **Task** Run the following code to process tables. Briefly describe the output that appears below the codeblock.
 **Answer**
-
+It shows what I saw in the pervious part of the pre lab.
 ```{r}
 # read in the html and extract all the tables
 naics_industry <- naics_url %>%

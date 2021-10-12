@@ -48,13 +48,13 @@ In this notebook, we are reverse engineering five sentences from the story.
 ### Sentence 1
 
 * **Sentence text**: "City police made an arrest in 41 percent of homicides in 2014; last year, the rate was just 27 percent, a 14 percentage point drop."
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Analysis summary**: We were able to confirm the findings in this sentence, 2014 had 41% and 2017 had 27%. 2014 we founded up .2 and 2017 we rounded down .3 but the finding in the story was not wrong according to our data analysis.
 
 ```{r}
 # Put code to reverse engineer sentence here
 
 # Display results of code below this codeblock
-baltimore_homicide %>%
+percent_2014<-baltimore_homicide %>%
 filter(city == "Baltimore") %>%
 mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
 filter(reported_date >= as.Date("2014-01-01"), reported_date <= as.Date("2014-12-31")) %>%
@@ -67,8 +67,8 @@ filter(disposition == "Closed by arrest") %>%
 mutate(c = sum(count)) %>%
 mutate(percentage = count / total_homicides) 
 
-#2018
-baltimore_homicide %>%
+#2017
+percent_2017<-baltimore_homicide %>%
 filter(city == "Baltimore") %>%
 mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
 filter(reported_date >= as.Date("2017-01-01"), reported_date <= as.Date("2017-12-31")) %>%
@@ -80,6 +80,7 @@ mutate(total_homicides = sum(count)) %>%
 filter(disposition == "Closed by arrest") %>%
 mutate(count = sum(count)) %>%
 mutate(percentage = count / total_homicides) 
+
 ```
 
 ### Sentence 2
