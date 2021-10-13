@@ -927,7 +927,7 @@ In this next step, we use employment_info <- employment_info[[1]]  to extract ea
 ### Task 32: Run code to run for loop to clean up tables
 **Task** Run the following for loop to clean up tables. Briefly describe the output that appears below the codeblock.
 **Answer**
-
+There are 19 tables now.
 ```{r}
 
 # For loop, iterating over each row in our naics industry dataframe
@@ -968,7 +968,7 @@ We can add that back in by using bind_cols() to reconnect the each_row_df, which
 ### Task 33: Run code to run for loop to add in data
 **Task** Run the following for loop to add in data. Briefly describe the output that appears below the codeblock.
 **Answer**
-
+19 tables of 1 row and 10 columns
 ```{r}
 
 # For loop, iterating over each row in our naics industry dataframe
@@ -1010,7 +1010,7 @@ Let's use parse_number() to remove the comma from the jun_2021 number and conver
 ### Task 34: Run code to run for loop to clean up tables
 **Task** Run the following for loop to clean up tables. Briefly describe the output that appears below the codeblock.
 **Answer**
-
+19 tables of 1 row and 3 columns.
 ```{r}
 
 # For loop, iterating over each row in our naics industry dataframe
@@ -1063,7 +1063,7 @@ And inside our "for loop" at the end, we'll bind each employment_info dataframe 
 ### Task 35: Run code to run for loop to combine tables into a single table
 **Task** Run the following for loop combine tables into a single table. Briefly describe the output that appears below the codeblock.
 **Answer**
-
+A single table of 19 rows and 3 columns.
 ```{r}
 
 # Create an empty dataframe to hold results
@@ -1120,7 +1120,7 @@ Here's the table on the mining sector page: [https://www.bls.gov/iag/tgs/iag21.h
 ### Task 36: Go to the web page linked above
 **Task** Visit the web page linked above. Briefly describe what you see there.
 **Answer**
-
+An about page of the Oil, Mining, and Gas sector.
 ### Task 37: Load image
 **Task** Run the following code to display an image showing what you should see on the web page.
 
@@ -1134,7 +1134,7 @@ And here's the table for the agriculture sector.
 ### Task 38: Go to the web page linked above
 **Task** Visit the web page linked above. Briefly describe what you see there.
 **Answer**
-
+About the Agriculture, Forestry, Fishing and Hunting sector.
 ### Task 39: Load image
 **Task** Run the following code to display an image showing what you should see on the web page.
 
@@ -1148,7 +1148,7 @@ In the second row of this table, it has the unemployment rate. Nowhere on the pa
 ### Task 40: Run code to remove agriculture from table
 **Task** Run the following code to remove agriculture from table. Briefly describe the output that appears below the codeblock.
 **Answer**
-
+Agriculture is still in the table in the first row.
 ```{r}
 # remove the suspicious value for agriculture.
 employment_by_sector_all <- employment_by_sector_all %>%
