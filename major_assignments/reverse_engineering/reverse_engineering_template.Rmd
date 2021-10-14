@@ -86,12 +86,100 @@ total_2014_2017<-bind_cols(percent_2014,percent_2017)
 
 ### Sentence 2
 
-* **Sentence text**: Of the 1,002 homicides between 2015 and the beginning of this year, just 252 — one out of every four — resulted in an arrest. In Chicago, the homicide arrest rate has dropped 21 percentage points, in Boston it has dropped 12 points and in St. Louis it is down 9. 
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Sentence text**: In Chicago, the homicide arrest rate has dropped 21 percentage points, in Boston it has dropped 12 points and in St. Louis it is down 9. (2014 vs 2017)
+* **Analysis summary**: Through filtering the data to only homicides that resulted in an arrest in 2014 and 2015 in Chicago, we subtracted the percent of total homicides from each year to confirm that the homicide arrest rate in Chicago has dropped 21 percentage points. We did this same process for the cities of Boston and St. Louis to confirm that Boston dropped 12 percentage points and St. Louis dropped 9 percentage points.
 
 ```{r}
 # Put code to reverse engineer sentence here
-
+#Chicago 2014
+chicago_percent_2014<- baltimore_homicide %>% 
+  filter(city == "Chicago") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2014-01-01"), reported_date <= as.Date("2014-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentagechicago2014 = count / total_homicides) 
+  
+#Chicago 2017
+chicago_percent_2017<- baltimore_homicide %>% 
+  filter(city == "Chicago") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2017-01-01"), reported_date <= as.Date("2017-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentagechicago2017 = count / total_homicides) 
+#CHICAGO PERCENT CHANGE
+chicago_total <- bind_cols(chicago_percent_2014,chicago_percent_2017)%>%
+  mutate(percentagechicago2017-percentagechicago2014)
+#Boston
+#Boston 2014
+boston_2014 <- baltimore_homicide %>% 
+  filter(city == "Boston") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2014-01-01"), reported_date <= as.Date("2014-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentageboston2014 = count / total_homicides)
+#Boston 2017
+boston_2017<- baltimore_homicide %>% 
+  filter(city == "Boston") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2017-01-01"), reported_date <= as.Date("2017-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentageboston2017 = count / total_homicides) 
+  
+#Boston Percent Change
+boston_total <- bind_cols(boston_2014,boston_2017)%>%
+  mutate(percentageboston2017-percentageboston2014)
+  
+#St. Louis
+#St. Louis 2014
+St_Louis_2014 <- baltimore_homicide %>% 
+  filter(city == "St. Louis") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+ filter(reported_date >= as.Date("2014-01-01"), reported_date <= as.Date("2014-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentage_stlouis_2014 = count / total_homicides)
+ 
+ 
+#St. Louis 2017
+St_Louis_2017 <- baltimore_homicide %>% 
+  filter(city == "St. Louis") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+ filter(reported_date >= as.Date("2017-01-01"), reported_date <= as.Date("2017-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentage_stlouis_2017 = count / total_homicides)
+#St. Louis Percent Change
+St_Louis_total <- bind_cols(St_Louis_2014,St_Louis_2017)%>%
+  mutate(percentage_stlouis_2017-percentage_stlouis_2014)
+  
 # Display results of code below this codeblock
 
 ```
@@ -101,11 +189,21 @@ total_2014_2017<-bind_cols(percent_2014,percent_2017)
 * **Sentence text**: Of the 1,002 homicides between 2015 and the beginning of this year, just 252 — one out of every four — resulted in an arrest.
 
 
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
+* **Analysis summary**: Through filtering the data by homicides between the beginning of 2015 to the end of 2017, we can confirm that there were 1,002 homicides in this time period. By grouping the data by dispositions listed as "closed by arrest", we can confirm that 252 cases resulted in arrest. By finding the percent of cases resulting in arrest by the total homicide cases, we can confirm that one out of ever four case resulted in an arrest.
 
 ```{r}
 # Put code to reverse engineer sentence here
-
+baltimore_homicide %>% 
+  filter(city == "Baltimore") %>%
+  mutate(reported_date = as.Date(as.character( reported_date), format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2015-01-01"), reported_date <= as.Date("2017-12-31")) %>%
+group_by(disposition)%>%
+   summarise(
+    count= n()
+  ) %>%
+  mutate(total_homicides = sum(count)) %>%
+  filter(disposition == "Closed by arrest") %>%
+  mutate(percentage = count / total_homicides) 
 # Display results of code below this codeblock
 
 ```
