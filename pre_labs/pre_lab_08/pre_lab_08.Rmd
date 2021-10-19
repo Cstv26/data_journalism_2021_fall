@@ -22,6 +22,7 @@ options(scipen=999)
 library(tidyverse)
 # if needed, install tidycensus, then load it.
 # install.packages("tidycensus")
+install.packages("tidycensus")
 library(tidycensus)
 ```
 
@@ -35,7 +36,7 @@ To use the API, you need to [an API key from the Census Bureau](https://api.cens
 **Task** Replace YOUR KEY HERE in the codeblock below with your Census API Key (leave the quotemarks).
 
 ```{r echo=FALSE}
-#census_api_key("YOUR KEY HERE", install=TRUE)
+census_api_key("0105753aba54d204fb6c33c44044ae59449b3773", overwrite=TRUE)
 ```
 
 The `install=TRUE` part saves your key for future use.
@@ -103,7 +104,7 @@ And now we calculate the percent change.
 
 **Task** Run the following codeblock to calculate the percentage change and put the state with the largest percentage growth below.
 **Answer**
-
+Nevada
 
 ```{r}
 alldata %>% mutate(change = ((Population2010-Population2000)/Population2000)*100) %>% arrange(desc(change))
@@ -123,7 +124,7 @@ We can measure this by median household income. That variable is `B19013_001`, s
 
 **Task** Run the following codeblock to find the Maryland county with the highest median household income and put the answer below.
 **Answer**
-
+Howard County
 ```{r}
 md <- get_acs(geography = "county",
               variables = c(medincome = "B19013_001"),
@@ -157,10 +158,10 @@ As you can see, some of the error bars are quite wide. Some are narrow. But if t
 
 Is the difference between Calvert and Montgomery significant?
 **Answer**
-
+No it looked around the same area.
 Is the difference between Howard and everyone else significant?
 **Answer**
-
+It seems like it gradually gies up but Howard is a bit more seperated. 
 ### Task 7: Joining Multiple Years Together
 
 Let's ask another question of the ACS -- did any counties lose income from the time of the global financial crisis to the current 5-year window?
@@ -185,7 +186,7 @@ What we're going to do next is a lot, but each step is simple. We're going to jo
 
 **Task** Run the following codeblock to join the data, rename the population estimates and then calculate the values we need. Notice how we select _after_ we do the initial calculations so we only see the columns we're interested in (and drop the ones we don't want to see). Also note how the select function has the minus sign (-) in front of some columns? That means we don't want to see them in our result. Which counties saw their median incomes fall from 2010-2019? Is the change outside the margin of error for both?
 **Answer**
-
+Somerset and Caroline County.
 ```{r}
 md10 %>%
   inner_join(md19, by=c("GEOID", "NAME")) %>%
@@ -221,7 +222,8 @@ top_zips <- maryland_ppp %>%
 
 **Task** Let's get ZCTA household income data from the ACS using tidycensus for the top zip code in `top_zips`. Run the following codeblock to retrieve household income data for all Maryland ZCTAs first, then join them to `top_zips` using the GEOID column. Of the 20 zip codes with the largest amounts, which ones have estimated median household incomes of less than $50,000?
 **Answer**
-
+	
+21202, 21740, and 21201
 ```{r}
 md_zipcodes <- get_acs(geography="zcta", variables = "B19013_001", state='MD')
 md_zips_with_acs <- top_zips %>% left_join(md_zipcodes, by=c('zip5'='GEOID'))
