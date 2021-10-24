@@ -1,0 +1,155 @@
+---
+title: "lab_08"
+author: "derek willis"
+date: "8/26/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## You will need
+
+* A Census API key
+
+## Load libraries and establish settings
+
+You'll need to load two packages for this: the tidyverse and tidycensus.
+
+**Task** load these two packages
+
+```{r}
+# Turn off scientific notation
+options(scipen=999)
+library(tidycensus)
+library(tidyverse)
+```
+
+## Setup Census API
+
+You'll need your Census API Key:
+
+**Task** set your API Key
+
+```{r echo=FALSE}
+census_api_key("0105753aba54d204fb6c33c44044ae59449b3773", overwrite =TRUE)
+```
+
+## Load and view ACS variables
+
+You'll also need to load the list of American Community Survey variables from the 2019 5-year estimates so you can identify the codes you need:
+
+**Task** load the variables from the 2019 5-year ACS and save them to a dataframe
+
+```{r}
+# Write code here to load the ACS variables
+ACS5 <- load_variables(2019, "acs5", cache = FALSE)
+```
+
+## Load PPP data
+
+You'll also need to load an RDS file of PPP loan applications that were removed from the original data by lenders in July.
+
+**Task** read the RDS file and save it to a dataframe
+
+```{r}
+#Write code here to read the RDS file
+rds.ppp<- read_rds("data/lab_08.rds")
+```
+
+## Answer questions
+
+**Q1** What is the Maryland jurisdiction with the lowest median age, according to the ACS 2019 5-year estimates? You will need to find the variable for median age first.
+**A1**
+Baltimore City has the lowest median age of 35.4
+```{r}
+Ages5 <- get_acs(geography = "county",
+              variables = c( label = "B01002_001"),
+              state = "MD",
+              year = 2019)
+
+```
+
+**Q2** Which Maryland counties have a median age of at least 50?
+**A2**
+Talbot and Worcester counties have median ages of at least 50.
+```{r}
+Ages50 <- get_acs(geography = "county",
+              variables = c( label = "B01002_001"),
+              state = "MD",
+              year = 2019) %>%
+  arrange(desc(estimate))
+```
+
+**Q3** Which Maryland counties have the highest percentage of 5-17 year-olds that speak Spanish at home? You'll need one dataframe with county-level data on the number of 5-17 year-olds that speak Spanish at home and a second dataframe with the total population of 5-17 year-olds by county. For each dataframe, rename the `estimate` column to a meaningful name you've given the ACS variable, remove the `variable` columns in each using select and then join them based on GEOID and NAME. Then you can add a column to calculate the percentage of the total 5-17 population that speaks Spanish at home.
+**A3**
+Prince George's County, Maryland
+```{r}
+span5_17<- get_acs(geography = "county",
+              variables = c( label = "B16007_004"),
+              state = "MD",
+              year = 2019) %>%
+  rename(speakspan5_17=estimate)
+
+all5_17<- get_acs(geography = "county",
+              variables = c( label = "B16007_002"),
+              state = "MD",
+              year = 2019) %>%
+  rename(allpop5_17=estimate)
+
+percent_spanish<-all5_17 %>%
+  inner_join(span5_17, by=c("GEOID", "NAME"))%>%
+  select(-variable.x, -variable.y, -moe.x, -moe.y) %>%
+   mutate(change = (speakspan5_17/allpop5_17)*100) %>%
+  arrange(change)
+```
+
+**Q4** Given the counties with the largest percentage of 5-17 year-olds that speak Spanish at home, what stands out to you about the data? How would you describe the top 5 counties? How would you describe Garrett County's numbers?
+**A4**
+Prince Georges County had the highest percentage of Spanish Speaking 5 to 17 year olds. Nothing really stood out to me about the largest five counties except Caroline had a much smaller population but a solid percentage. Garret County already had a very small population but I can infer that there isnt alot of spanish speakers there from this data.
+
+**Q5** Which 5-digit zip code had the most removed PPP applications, and what is the percentage of Black population in that zip code according to the ACS? To answer this question, you will need to create separate data frames with ACS data on total population by zip code and Black population by zip code. In each data frame, rename the `estimate` column and remove the `variable` column. You'll need to combine the two data frames in order to calculate the percentage, and then you can combine it with the PPP data. Remember: the PPP data may not have only 5-digit zip codes!
+**A5**
+60620 had the most removed PPP applications with 95.69% being Black.
+```{r}
+new.ppp <- rds.ppp %>%
+  mutate(zip5 = str_sub(zip, 1, 5)) %>%
+  filter(race == "Black or African American")
+  
+new.ppp <- new.ppp %>%
+  group_by(zip5) %>%
+  summarize(total=sum(amount)) %>%
+  arrange(desc(total))
+black_pop <- get_acs(geography = "zip code tabulation area",
+              variables = c(agetotal = "B01001B_001"),
+              year = 2019)  
+black_pop <- black_pop %>%
+  select(-variable, -moe, -NAME) %>%
+  rename(estimate1 = estimate)
+totalpop <- get_acs(geography = "zip code tabulation area",
+              variables = c(agetotal = "B01001_001"),
+              year = 2019)  
+totalpop <- totalpop %>%
+  select(-variable, -moe, -NAME) %>%
+  rename(estimate2 = estimate)
+total <- black_pop %>%
+  inner_join(totalpop)
+
+total1 <- black_population %>%
+  inner_join(totalpop)
+total1 <- black_population %>%
+  mutate( percent = (estimate1/estimate2)) %>%
+  rename(zip5 = GEOID)
+total_new <- new.ppp %>%
+  left_join (total1)
+ 
+```
+
+**Q6** How would you describe to an editor the top 10 zip codes with the most removed application in terms of Black population? Where are they located, and what do they have in common? Are there any zip codes that seem different, and if so why?
+**A6**
+
+The zip codes with the most removed PP applications in terms of Black population are located in Chicago. A lot of these areas are predominantly Black areas.
+**Q7** What other columns from the PPP data could be useful in reporting on what happened to this removed loans?
+**A7**
+The business type coukd be helpful in finding out hy they were removed. Like was it one type of business? Or multiple?
