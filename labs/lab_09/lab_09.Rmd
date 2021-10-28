@@ -16,6 +16,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ## Load libraries and establish settings
 
 **Task** Create a codeblock and load appropriate packages and settings for this lab.
+```{r}
+library(tidyverse)
+library(tidycensus)
+wv_state <- read_rds("data/lab_09.rds")
+```
 
 ## Questions
 
@@ -30,11 +35,32 @@ You MUST do the following things when answering this question:
   * adds a small circle (called a "point") on the line for dates that had loans. And to the left of each circle/point, shows the number of loans on that date.  I didn't show you how to do this in the prelab, so do some web sleuthing to figure it out! 
 
 Basically, your chart should look like this image, which will appear when you run the codeblock below. 
+```{r}
+wv_by_date <- wv_state%>%
+    group_by(date_approved) %>%
+  summarise(
+    total_loans=n()
+  )
+
+wv_april <- wv_by_date%>%
+filter(str_detect(date_approved, "^2020-04"))
+
+wv_april %>%
+  ggplot(aes(x=date_approved, y=total_loans)) + 
+  geom_line() +
+   scale_x_date(date_breaks = "1 day", date_labels = "%d-%b-%Y") +
+  theme(
+    axis.text.x = element_text(angle = 45,  hjust=1)
+  )+
+geom_point(aes(x=date_approved, y=total_loans))+ 
+geom_text(aes(label=total_loans),nudge_x = -1,nudge_y = 0, check_overlap = T)
+```
 
 ```{r}
 knitr::include_graphics(rep("images/chart_1.png"))
 ```
 **A1.** 
+April 28th 2020 saw the most loans.
 
 **Q2.** What are the top 10 states that got the most PPP loans per 100,000 people? You MUST do the following things when answering this question:
 
@@ -44,6 +70,40 @@ knitr::include_graphics(rep("images/chart_1.png"))
 * Use ggplot to make a horizontal bar chart that shows the top 10 states, with the length of the bar determined by the state's total PPP loans per 100,000 people. Give it an appropriate title, source, and x and y axis titles. 
 * Make the bars on the chart blue! I didn't show you how to do this in the prelab, so do some web sleuthing to figure it out.  
 
+```{r}
+
+state_ppp <- read_csv("data/state_ppp_all.csv")
+
+census_api_key("0105753aba54d204fb6c33c44044ae59449b3773")
+
+sf1 <- load_variables(2019, "acs5", cache = TRUE)
+View(sf1)
+
+ACS2019<- get_acs(geography = "state",
+              variables = c(population = "B01001_001"),
+              year = 2019)
+state_new<- state_ppp%>%
+  mutate(state=case_when(
+    state=="S Dakota" ~ "South Dakota",
+    state=="N Dakota" ~ "North Dakota",
+    TRUE~state
+  ))
+  
+New_ACS<-ACS2019%>%
+  rename(state=NAME)
+
+State<-New_ACS %>%
+  left_join(state_new, by=c("state"))%>%
+  mutate(change=total_ppp_loans/estimate*100000)%>%
+  arrange(desc(change))%>%
+  filter(change >4490)
+  
+
+State %>%
+  ggplot()+
+  geom_bar((aes(x=reorder(state,total_ppp_loans), weight=change)),fill="blue")+
+  coord_flip()
+```
 **A2.** 
 
 **Q3.**  A scatterplot is a type of chart that helps us see relationships between two variables. One variable goes on the x axis, the other on the y axis.  For each row/observation in our data, a scatterplot puts a circle (or a "point") where the two variables intersect on a grid. 
