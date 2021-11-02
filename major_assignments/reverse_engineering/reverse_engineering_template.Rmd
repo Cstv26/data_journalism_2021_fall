@@ -215,22 +215,31 @@ group_by(disposition)%>%
 
 ```{r}
 # Put code to reverse engineer sentence here
+#Code that organizes top 30 cities (2014 v 2017)
+homicide_2014 <- baltimore_homicide %>%
+  mutate(reported_date = as.Date(as.character( reported_date), 
+  format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2014-01-01"), reported_date <= as.Date("2014-12-31")) %>%
+  group_by(city) %>%
+  summarise(
+    count= n()) %>%
+   arrange(desc(count))
+homicide_2017 <- baltimore_homicide %>%
+  mutate(reported_date = as.Date(as.character( reported_date), 
+  format="%Y%m%d")) %>%
+  filter(reported_date >= as.Date("2017-01-01"), reported_date <= as.Date("2017-12-31")) %>%
+  group_by(city) %>%
+  summarise(
+    count= n()) %>%
+   arrange(desc(count)) %>%
+  rename(count2 = count)
+alldata <- homicide_2014 %>%
+  inner_join(homicide_2017)
+alldata <- alldata %>%
+  mutate(difference=count2 - count) %>%
+  arrange(desc(difference))
 
 # Display results of code below this codeblock
 
 ```
 
-### Sentence 5
-
-* **Sentence text**: In each of those neighborhoods, police make an arrest in fewer than 25 percent of cases, including 16 percent in Sandtown-Winchester.
-
-* **Analysis summary**: [Write up two to three sentences describing the results of your analysis.  Were you able to confirm the finding? If not, why not?]
-
-```{r}
-# Put code to reverse engineer sentence here
-
-# Display results of code below this codeblock
-
-```
-
--30-
