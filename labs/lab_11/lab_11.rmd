@@ -139,6 +139,12 @@ There are no mines in the county with the highest loan amount. Its just yellow w
 * What specific industry are they in, based on their 6-digit NAICS code? Look them up on the web. What services do they provide?
 * How many jobs did they save, according to the data?
 * What's your hypothesis for why a company in their specific industry would need to seek a PPP loan during the pandemic?
-
+```{r}
+oil_data<-lab_11%>%
+  filter(str_detect(naics_code, "^21"))%>%
+  filter(project_county_name=="RITCHIE")%>%
+  arrange(desc(amount))
+```
 **A4.**
+The biggest chunck of the total loan amount is from Hall Drilling, LLC. Based on their naics code they are a company that does oil drilling and gas wells.They offer construction, trucking, drilling, product installation, etc.From the data they daved 387 jobs.They probably needed a loan because they are apart of the gas industry and everyone was staying home during the pandemic, not going anywhere therefore not needed fuel.
 -30-
