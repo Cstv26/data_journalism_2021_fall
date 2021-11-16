@@ -1,0 +1,16 @@
+---
+  title: "Reverse Engineering Project"
+author: "Student names here"
+date: "Date here"
+output:
+  html_document:
+  theme: cerulean
+highlight: pygments
+toc: true
+toc_float:
+  collapsed: true
+smooth_scroll: false
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
