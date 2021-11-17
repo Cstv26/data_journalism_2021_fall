@@ -1,6 +1,6 @@
 ---
-  title: "Reverse Engineering Project"
-author: "Student names here"
+  title: "RData Anlysis Project"
+author: "Cassidie Kassidy and Maddie"
 date: "Date here"
 output:
   html_document:
@@ -14,3 +14,36 @@ smooth_scroll: false
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
+```{r}
+library(tidyverse)
+library(tidycensus)
+library(janitor)
+library(lubridate)
+```
+
+```{r}
+install.packages("censusxy")
+```
+
+```{r}
+Shootings<-read_csv("data-police-shootings-master/fatal-police-shootings-data.csv")
+```
+###Question 1:
+Are Police shootings primarily only happening in majority Black neighborhoods
+```{r}
+
+```
+
+###Question 2:
+
+```{r}
+
+```
+
+###Question 3:
+
+```{r}
+
+```
+
