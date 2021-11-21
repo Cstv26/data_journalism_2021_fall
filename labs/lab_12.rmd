@@ -111,7 +111,7 @@ nmd_top_25 <- non_maryland_zip %>%
 write.csv(top_25, paste0("data/maryland_zips_yyyymmdd.csv" , today(), ".csv"))
 write.csv(nmd_top_25 , paste0("data/non_maryland_zips_yyyymmdd.csv" , today(), ".csv"))
 ```
-```
+
 
 **Q3.** Maryland has had one of the more successful vaccination rates, but you want to understand where a significant portion of the population remains less than fully vaccinated. Make a dataframe of all Maryland zip codes from the vaccination data you used in Q2 and join it to Maryland zip code population data from the Census API. Calculate the percentage of fully vaccinated for each zip code and then make a map showing the zip codes with less than 50 percent fully vaccinated. Put a blank map with the outline of Maryland counties (which you can get from Tigris) behind it for context. Add a label to the map describing what the data is and include the date from the vaccination data (programmatically, so you can run it every day).
 
