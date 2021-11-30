@@ -25,7 +25,7 @@ police_shootings <- read_csv("data/fatal-police-shootings-data.csv") %>%
 police_shootings_sf <- tibble()
 
 #for (row_number in 1:nrow(police_shootings)) {
-for (row_number in 3501:6414) {  
+for (row_number in 4901:6414) {  
   #this makes a dataframe for each
   row_df<- police_shootings %>%
     slice(row_number)

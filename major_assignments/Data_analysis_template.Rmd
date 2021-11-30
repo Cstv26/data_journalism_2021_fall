@@ -33,7 +33,7 @@ library(censusxy)
 ```
 
 ```{r}
-Shootings<-read_csv("data-police-shootings-master/fatal-police-shootings-data.csv")
+Shootings<-read_csv("data_analysis/data/fatal-police-shootings-data.csv")
 
 census_api_key("0105753aba54d204fb6c33c44044ae59449b3773", overwrite =TRUE)
 ```
@@ -68,16 +68,18 @@ for (row_number in 1:nrow(shootings_geocoded)) {
 ```
 ```{r}
 #read in the data
-data1 <- read_rds("data/geocoded_results_500.rds")
-data2 <- read_rds("data/geocoded_results_1000.rds")
-data3 <- read_rds("data/geocoded_results_1500.rds")
-data4 <- read_rds("data/geocoded_results_2000.rds")
-data5 <- read_rds("data/geocoded_results_2500.rds")
-data6 <- read_rds("data/geocoded_results_3000.rds")
-data7 <- read_rds("data/geocoded_results_3500.rds")
-data8 <- read_rds("data/geocoded_results_4000.rds")
-data9 <- read_rds("data/geocoded_results_4500.rds")
+data1 <- read_rds("data_analysis/data/geocoded_results_500.rds")
+data2 <- read_rds("data_analysis/data/geocoded_results_1000.rds")
+data3 <- read_rds("data_analysis/data/geocoded_results_1500.rds")
+data4 <- read_rds("data_analysis/data/geocoded_results_2000.rds")
+data5 <- read_rds("data_analysis/data/geocoded_results_2500.rds")
+data6 <- read_rds("data_analysis/data/geocoded_results_3000.rds")
+data7 <- read_rds("data_analysis/data/geocoded_results_3500.rds")
+data8 <- read_rds("data_analysis/data/geocoded_results_4000.rds")
+data9 <- read_rds("data_analysis/data/geocoded_results_4500.rds")
 
+#binding the ones we have into one
+shootings_geoid <- bind_rows(data1, data2, data3, data4, data5, data6, data7, data8, data9, .id = NULL)
 ```
 ###Question 2:
 Do these shootings mostly occur in low income areas?
