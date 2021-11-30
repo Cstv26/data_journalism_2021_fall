@@ -38,48 +38,55 @@ Shootings<-read_csv("data-police-shootings-master/fatal-police-shootings-data.cs
 census_api_key("0105753aba54d204fb6c33c44044ae59449b3773", overwrite =TRUE)
 ```
 ###Question 1:
-Are Police shootings primarily only happening in majority Black neighborhoods
+Are Police shootings primarily only happening in majority Black neighborhoods even when the victim is not black?
 ```{r}
-Shootings<-read_csv("data-police-shootings-master/fatal-police-shootings-data.csv")%>%
+shootings<-read_csv("data/fatal-police-shootings-data.csv")%>%
     filter(!is.na(longitude)) 
 
-shootings <- tibble()
-for (row_number in 1:nrow(shootings)) {
-  
-  row_df<- shootings %>%
-  slice(row_number)
-   longitude <- row_df$longitude
+shootings_geocoded <- tibble()
+
+
+for (row_number in 1:nrow(shootings_geocoded)) {
+
+  #making one row dataframe with shooting data geocoded
+  row_df <- shootings %>%
+    slice(row_number)
+  #extract value for each object latitude and longitude
+  longitude <- row_df$longitude
   latitude <- row_df$latitude
+  #get census tract for row
   census_results <- cxy_geography(longitude, latitude) %>%
     select(Census.Tracts.GEOID) %>%
     clean_names()
- 
+#add census tract to dataframe 
    row_df <- row_df %>%
-     bind_cols(census_results) %>%
-  shootings <- shootings %>%
+     bind_cols(census_results) 
+   
+  shootings_geocoded <- shootings_geocoded %>%
     bind_rows(row_df) 
-   
-   print(paste0("finished ", row_number, " ", Sys.time()))
-   
-   if (row_number%%500 == 0) {
-     filepath <- paste0("data/geocoded_results_", row_number, ".rds")
-     write_rds(shootings, filepath)
-    shootings <- as_tibble()
-     
-   }
-     
 }
-
+```
+```{r}
+#read in the data
+data1 <- read_rds("data/geocoded_results_500.rds")
+data2 <- read_rds("data/geocoded_results_1000.rds")
+data3 <- read_rds("data/geocoded_results_1500.rds")
+data4 <- read_rds("data/geocoded_results_2000.rds")
+data5 <- read_rds("data/geocoded_results_2500.rds")
+data6 <- read_rds("data/geocoded_results_3000.rds")
+data7 <- read_rds("data/geocoded_results_3500.rds")
+data8 <- read_rds("data/geocoded_results_4000.rds")
+data9 <- read_rds("data/geocoded_results_4500.rds")
 
 ```
-
 ###Question 2:
-
+Do these shootings mostly occur in low income areas?
 ```{r}
 
 ```
 
 ###Question 3:
+Are police shootings still happening disproportionately affecting black people regardless of the area (even in white neighborhoods)?
 
 ```{r}
 
