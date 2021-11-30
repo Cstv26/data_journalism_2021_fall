@@ -63,8 +63,8 @@ for (row_number in 1:nrow(shootings)) {
    
    if (row_number%%500 == 0) {
      filepath <- paste0("data/geocoded_results_", row_number, ".rds")
-     write_rds(police_shootings_sf, filepath)
-     police_shootings_sf <- as_tibble()
+     write_rds(shootings, filepath)
+    shootings <- as_tibble()
      
    }
      
