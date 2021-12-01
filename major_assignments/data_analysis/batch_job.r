@@ -24,7 +24,7 @@ police_shootings_sf <- tibble()
 
 #for (row_number in 1:nrow(police_shootings)) {
 
-for (row_number in 6241:6410) {
+for (row_number in 6291:6410) {
   
   #this makes a dataframe for each
   row_df<- police_shootings %>%
@@ -51,7 +51,7 @@ for (row_number in 6241:6410) {
     
     print(paste0("finished ", row_number, " ", Sys.time()))
     
-    if (row_number%%170 == 0) {
+    if (row_number%%10 == 0) {
       filepath <- paste0("data/geocoded_results_", row_number, ".rds")
       write_rds(police_shootings_sf, filepath)
       police_shootings_sf <- as_tibble()
