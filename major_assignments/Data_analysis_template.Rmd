@@ -1,6 +1,6 @@
 ---
   title: "RData Anlysis Project"
-author: "Cassidie Kassidy and Maddie"
+author: "Cassidie Stevens, Kassidy McDonald, and Maddie Osgood"
 date: "Nov 2021"
 output:
   html_document:
@@ -105,7 +105,7 @@ states_dataframe <- fips_codes %>%
   head(51) %>%
   as_vector()
 
-census <- get_acs(geography = "tract", state="MD", 
+census <- get_acs(geography = "tract", state= states_dataframe, 
                        variables = c(popululation = "B02001_001",
                                 median.gross.rent = "B25064_001",
                                 median.household.income = "B19013_001",
@@ -119,15 +119,13 @@ census <- get_acs(geography = "tract", state="MD",
                                 multiple = "B03002_009",
                                 other = "B03002_008"),
                           year= 2019)
-#shootings_geoid_tracts%>%
-  #group_by(census_tracts_geoid)%>%
-  #summarise()
+
 
 ```
 ###Question 2:
 Do these shootings mostly occur in low income areas?
 ```{r}
-census <- get_acs(geography = "tract", state="MD", 
+census <- get_acs(geography = "tract", state=states_dataframe, 
                        variables = c(popululation = "B02001_001",
                                 median.gross.rent = "B25064_001",
                                 median.household.income = "B19013_001",
