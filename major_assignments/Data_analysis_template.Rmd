@@ -173,7 +173,12 @@ census_income<-census_1%>%
 ###Question 3:
 Are police shootings still happening disproportionately affecting black people regardless of the area (even in white neighborhoods)?
 
+###Answer 3:
+Yes, police shootings are disproportionately effect Black people. The rate they get shot is at 23%, it is almost twice as much as there are Black people in the country at 12%
+
 ```{r}
+options(scipen = 999)
+
 race_shootings <- shootings_geoid %>%
   filter(!is.na(race))
 
@@ -182,9 +187,11 @@ race_counted<-race_shootings%>%
   count(race)
 
 race<-race_counted%>%
-  add_column(total="29521084")
-  
- race_percent<-race%>%
+  add_column(total="6410")
+
+race$total <- as.numeric(race$total)
+
+race_percent<-race%>%
    mutate(percent=(n/total))
 ```
 
