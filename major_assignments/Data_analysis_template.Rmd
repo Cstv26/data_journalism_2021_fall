@@ -39,6 +39,8 @@ census_api_key("0105753aba54d204fb6c33c44044ae59449b3773", overwrite =TRUE)
 ```
 ###Question 1:
 Are Police shootings primarily only happening in majority Black neighborhoods even when the victim is not black?
+###Answer 1:
+Yes, it is happening more predominatley in black neighborhoods, the percentage overall in the US for the black population is 12%, and the shooting data showed it as 14% in black areas.
 ```{r}
 shootings<-read_csv("data_analysis/data/fatal-police-shootings-data.csv")%>%
     filter(!is.na(longitude)) 
@@ -68,35 +70,38 @@ for (row_number in 1:nrow(shootings_geocoded)) {
 ```
 ```{r}
 #read in the data
-data1 <- read_rds("data_analysis/data/geocoded_results_500.rds")
-data2 <- read_rds("data_analysis/data/geocoded_results_1000.rds")
-data3 <- read_rds("data_analysis/data/geocoded_results_1500.rds")
-data4 <- read_rds("data_analysis/data/geocoded_results_2000.rds")
-data5 <- read_rds("data_analysis/data/geocoded_results_2500.rds")
-data6 <- read_rds("data_analysis/data/geocoded_results_3000.rds")
-data7 <- read_rds("data_analysis/data/geocoded_results_3500.rds")
-data8 <- read_rds("data_analysis/data/geocoded_results_4000.rds")
-data9 <- read_rds("data_analysis/data/geocoded_results_4500.rds")
-data10 <- read_rds("data_analysis/data/geocoded_results_5000.rds")
-data11 <- read_rds("data_analysis/data/geocoded_results_5500.rds")
-data12 <- read_rds("data_analysis/data/geocoded_results_6000.rds")
-data13 <- read_rds("data_analysis/data/geocoded_results_6150.rds")
-data14 <- read_rds("data_analysis/data/geocoded_results_6240.rds")
-data15 <- read_rds("data_analysis/data/geocoded_results_6290.rds")
-data16 <- read_rds("data_analysis/data/geocoded_results_6300.rds")
-data17 <- read_rds("data_analysis/data/geocoded_results_6310.rds")
-data18 <- read_rds("data_analysis/data/geocoded_results_6320.rds")
-data19 <- read_rds("data_analysis/data/geocoded_results_6330.rds")
-data20 <- read_rds("data_analysis/data/geocoded_results_6340.rds")
-data21 <- read_rds("data_analysis/data/geocoded_results_6350.rds")
-data22 <- read_rds("data_analysis/data/geocoded_results_6360.rds")
-data23 <- read_rds("data_analysis/data/geocoded_results_6370.rds")
-data24 <- read_rds("data_analysis/data/geocoded_results_6380.rds")
-data25 <- read_rds("data_analysis/data/geocoded_results_6390.rds")
-data26 <- read_rds("data_analysis/data/geocoded_results_6400.rds")
-data27 <- read_rds("data_analysis/data/geocoded_results_6410.rds")
+#data1 <- read_rds("data_analysis/data/geocoded_results_500.rds")
+#data2 <- read_rds("data_analysis/data/geocoded_results_1000.rds")
+#data3 <- read_rds("data_analysis/data/geocoded_results_1500.rds")
+#data4 <- read_rds("data_analysis/data/geocoded_results_2000.rds")
+#data5 <- read_rds("data_analysis/data/geocoded_results_2500.rds")
+#data6 <- read_rds("data_analysis/data/geocoded_results_3000.rds")
+#data7 <- read_rds("data_analysis/data/geocoded_results_3500.rds")
+#data8 <- read_rds("data_analysis/data/geocoded_results_4000.rds")
+#data9 <- read_rds("data_analysis/data/geocoded_results_4500.rds")
+#data10 <- read_rds("data_analysis/data/geocoded_results_5000.rds")
+#data11 <- read_rds("data_analysis/data/geocoded_results_5500.rds")
+#data12 <- read_rds("data_analysis/data/geocoded_results_6000.rds")
+#data13 <- read_rds("data_analysis/data/geocoded_results_6150.rds")
+#data14 <- read_rds("data_analysis/data/geocoded_results_6240.rds")
+#data15 <- read_rds("data_analysis/data/geocoded_results_6290.rds")
+#data16 <- read_rds("data_analysis/data/geocoded_results_6300.rds")
+#data17 <- read_rds("data_analysis/data/geocoded_results_6310.rds")
+#data18 <- read_rds("data_analysis/data/geocoded_results_6320.rds")
+#data19 <- read_rds("data_analysis/data/geocoded_results_6330.rds")
+#data20 <- read_rds("data_analysis/data/geocoded_results_6340.rds")
+#data21 <- read_rds("data_analysis/data/geocoded_results_6350.rds")
+#data22 <- read_rds("data_analysis/data/geocoded_results_6360.rds")
+#data23 <- read_rds("data_analysis/data/geocoded_results_6370.rds")
+#data24 <- read_rds("data_analysis/data/geocoded_results_6380.rds")
+#data25 <- read_rds("data_analysis/data/geocoded_results_6390.rds")
+#data26 <- read_rds("data_analysis/data/geocoded_results_6400.rds")
+#data27 <- read_rds("data_analysis/data/geocoded_results_6410.rds")
 #binding the ones we have into one
-shootings_geoid <- bind_rows(data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12, data13,data14, data15,data16, data17, data18, data19, data20, data21, data22, data23, data24, data25, data26, data27,.id = NULL)
+#shootings_geoid <- bind_rows(data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12, data13,data14, data15,data16, data17, data18, data19, data20, data21, data22, data23, data24, data25, data26, data27,.id = NULL)
+
+#FILE WE WORK WITH FROM NOW ON
+shootings_geoid<- read_rds("data_analysis/all_geocoded_shootings.rds")
 
 unmatched <- anti_join(Shootings, shootings_geoid, by=c("id"))
 
@@ -119,7 +124,11 @@ census <- get_acs(geography = "tract", state= states_dataframe,
                                  multiple = "B03002_009",
                                 other = "B03002_008"),
                           year= 2019)
-shootings_geoid_grouped<-shootings_geoid%>%
+
+write_rds(census,"census.rds")
+census <- read_rds("census.rds")
+
+shootings_geoid_grouped <- shootings_geoid%>%
   group_by(census_tracts_geoid)%>%
   summarise(count=n())
 
@@ -136,24 +145,46 @@ shootings_geoid_rename<-shootings_geoid_grouped%>%
   rename(GEOID=census_tracts_geoid)
 
 shootings_added <- shootings_geoid_rename %>%
-  left_join(census_1, by=c("GEOID")) %>%
-  filter(is.na(NAME))
+  left_join(census_1, by=c("GEOID")) 
+
+shootings_added %>%
+  summarise(total_black = sum(af.am),
+           total_pop = sum(popululation)) %>%
+  mutate(percentage_black=(total_black/total_pop))
+
 ```
 ###Question 2:
 Do these shootings mostly occur in low income areas?
+
+###Answer2:
+Yes, shootings are occurring more in low income areas. The mean income in the shooting data is $56,554, where the national mean income is $67,007.
 ```{r}
-census <- get_acs(geography = "tract", state=states_dataframe, 
-                       variables = c(popululation = "B02001_001",
-                                median.gross.rent = "B25064_001",
-                                median.household.income = "B19013_001",
-                                poverty.level = "B05010_001",
-                          year= 2019))
+shootings_income<-shootings_added%>%
+  filter(!is.na(median.household.income)) %>%
+  summarise(mean_income =mean(median.household.income))
+
+census_income<-census_1%>%
+  filter(!is.na(median.household.income)) %>%
+  summarise(mean_income =mean(median.household.income))
+
+
 ```
 
 ###Question 3:
 Are police shootings still happening disproportionately affecting black people regardless of the area (even in white neighborhoods)?
 
 ```{r}
+race_shootings <- shootings_geoid %>%
+  filter(!is.na(race))
 
+race_counted<-race_shootings%>%
+ group_by(race)%>%
+  count(race)
+
+race<-race_counted%>%
+  add_column(total="29521084")
+  
+ race_percent<-race%>%
+   mutate(percent=(n/total))
 ```
 
