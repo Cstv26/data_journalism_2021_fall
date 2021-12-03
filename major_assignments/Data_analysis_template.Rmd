@@ -116,11 +116,28 @@ census <- get_acs(geography = "tract", state= states_dataframe,
                                 am.ind = "B03002_005",
                                 asian = "B03002_006",
                                 nh.pi = "B03002_007",
-                                multiple = "B03002_009",
+                                 multiple = "B03002_009",
                                 other = "B03002_008"),
                           year= 2019)
+shootings_geoid_grouped<-shootings_geoid%>%
+  group_by(census_tracts_geoid)%>%
+  summarise(count=n())
 
+census_1 <- census %>%
+  select(-moe) %>%
+  pivot_wider(names_from=variable, values_from=estimate)
 
+census_added<-census_1%>%
+  summarise(total_population = sum(popululation),
+            total_black_population = sum(af.am))%>%
+mutate(percentage_black = (total_black_population/total_population))
+
+shootings_geoid_rename<-shootings_geoid_grouped%>%
+  rename(GEOID=census_tracts_geoid)
+
+shootings_added <- shootings_geoid_rename %>%
+  left_join(census_1, by=c("GEOID")) %>%
+  filter(is.na(NAME))
 ```
 ###Question 2:
 Do these shootings mostly occur in low income areas?
