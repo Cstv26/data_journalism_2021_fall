@@ -195,3 +195,47 @@ race_percent<-race%>%
    mutate(percent=(n/total))
 ```
 
+###PLace to go to tell the story
+###Answer:
+
+```{r}
+shootings_geoid_black<-shootings_geoid%>%
+  filter(race =="B")
+
+shootings_geoid_black<-shootings_geoid_black%>%
+  group_by(state)%>%
+  summarise(count=n())%>%
+  arrange(desc(count))
+
+shooting_state <- shootings_geoid%>%
+    group_by(state)%>%
+  summarise(count=n())%>%
+  arrange(desc(count))%>%
+  rename(total_count = count)
+
+shootings_black_state <- shooting_state %>%
+  left_join(shootings_geoid_black, by=c("state")) 
+
+shootings_state_percent<-shootings_black_state %>%
+   mutate(percentage_black_shot=(count/total_count))%>%
+  arrange(desc(percentage_black_shot))
+
+census_2 <- get_acs(geography = "state",
+                       variables = c(popululation = "B02001_001",
+                                median.gross.rent = "B25064_001",
+                                median.household.income = "B19013_001",
+                                af.am = "B03002_004"),
+                          year= 2019)
+
+write_rds(census_2,"census_2.rds")
+census_2 <- read_rds("census_2.rds")
+
+census_3 <- census_2 %>%
+  select(-moe) %>%
+  pivot_wider(names_from=variable, values_from=estimate)%>%
+ mutate(percentage_black=(af.am/popululation))%>%
+  arrange(desc(percentage_black))
+
+
+```
+
