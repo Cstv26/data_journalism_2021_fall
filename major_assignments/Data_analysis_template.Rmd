@@ -234,8 +234,17 @@ census_3 <- census_2 %>%
   select(-moe) %>%
   pivot_wider(names_from=variable, values_from=estimate)%>%
  mutate(percentage_black=(af.am/popululation))%>%
+  arrange(desc(percentage_black))%>%
+  rename(state_name = NAME)
+
+
+fips_codes <- fips_codes %>%
+  select(state,state_name) %>%
+  distinct()
+
+shootings_black_joined <- fips_codes %>%
+  left_join(shootings_state_percent, by=c("state")) %>%
+  left_join(census_3, by=c("state_name"))%>%
   arrange(desc(percentage_black))
-
-
 ```
 
