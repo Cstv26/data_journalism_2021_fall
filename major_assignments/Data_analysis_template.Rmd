@@ -245,6 +245,9 @@ fips_codes <- fips_codes %>%
 shootings_black_joined <- fips_codes %>%
   left_join(shootings_state_percent, by=c("state")) %>%
   left_join(census_3, by=c("state_name"))%>%
-  arrange(desc(percentage_black))
+  mutate(difference=(percentage_black_shot-percentage_black))%>%
+  arrange(desc(difference))
+
+
 ```
 
