@@ -197,7 +197,7 @@ race_percent<-race%>%
 
 ###PLace to go to tell the story
 ###Answer:
-
+Illinois, the black population in the state is 14%, but they make up for 50% of the shooting victims. That is a huge difference of 36%, this would be the best area to take the story too as it disproportionately effects that state the most. Above them on the list id Rhode Island, but we discarded it as an out lier since there were only 4 total shootings in that state in the data.
 ```{r}
 shootings_geoid_black<-shootings_geoid%>%
   filter(race =="B")
@@ -247,7 +247,5 @@ shootings_black_joined <- fips_codes %>%
   left_join(census_3, by=c("state_name"))%>%
   mutate(difference=(percentage_black_shot-percentage_black))%>%
   arrange(desc(difference))
-
-
 ```
 
