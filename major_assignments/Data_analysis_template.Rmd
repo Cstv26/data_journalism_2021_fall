@@ -101,7 +101,7 @@ for (row_number in 1:nrow(shootings_geocoded)) {
 #shootings_geoid <- bind_rows(data1, data2, data3, data4, data5, data6, data7, data8, data9, data10, data11, data12, data13,data14, data15,data16, data17, data18, data19, data20, data21, data22, data23, data24, data25, data26, data27,.id = NULL)
 
 #FILE WE WORK WITH FROM NOW ON
-shootings_geoid<- read_rds("data_analysis/all_geocoded_shootings.rds")
+shootings_geoid<- read_rds("data/all_geocoded_shootings.rds")
 
 unmatched <- anti_join(Shootings, shootings_geoid, by=c("id"))
 
