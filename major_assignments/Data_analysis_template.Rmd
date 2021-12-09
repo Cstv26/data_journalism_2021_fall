@@ -237,7 +237,6 @@ census_3 <- census_2 %>%
   arrange(desc(percentage_black))%>%
   rename(state_name = NAME)
 
-
 fips_codes <- fips_codes %>%
   select(state,state_name) %>%
   distinct()
